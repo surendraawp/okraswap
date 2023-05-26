@@ -38,15 +38,15 @@ export default function Swap() {
 
   const [BuyState, setBuyState] = useState<boolean>();
   useEffect(() => {
-    setAcc();
-    console.log("baseURL", baseURl());
-    
+    setAcc();    
   }, [0]);
 
   useEffect(() => {
-    getBalances(token?.name);
+    if(Account || token) {
+      getBalances(token.name);
+    }
     setAmt(0);
-  }, [token]);
+  }, [token, Account]);
 
   const getBalances = async (token: string) => {
     switch (token) {
@@ -106,6 +106,30 @@ export default function Swap() {
       case "USDT": {
         let trx = await UsdtBuyService(Account, Amount, true);
         console.log(trx);
+        if (trx?.status == true) {
+          let response = await fetch(baseURl() + "sellTokens", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              trxhash: trx.transactionHash,
+              coin: token.name,
+              buyer: Account
+            })
+          });
+          let jsn = await response.json();
+          console.log(jsn);
+          settrxHASH(jsn.data.transactionHash);
+          setmodel(true)
+          setTimeout(() => {
+            setmodel(false)
+          },8000)
+          setBuyState(false);
+        } else {
+          console.log("ss");
+          setBuyState(false);
+        }
       }
       default:
         console.log("no Token Selected");
@@ -133,11 +157,16 @@ export default function Swap() {
   ];
 
   const calculatePrice = () => {
-    let price = token ? token.price : 0;
-    let coinPrice = price * Amount;
-    let final = coinPrice / 1;
-    setGet(final);
-    return final;
+    if(token.price) {
+      let price = token ? token.price : 0;
+      let coinPrice = price * Amount;
+      let final = coinPrice / 1;
+      setGet(final);
+      return final;
+    }
+    else {
+      setGet(0);
+    }
   };
 
   useEffect(() => {
