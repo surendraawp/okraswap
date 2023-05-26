@@ -4,7 +4,7 @@ import Web3 from "web3";
 import HDWalletProvider from "@truffle/hdwallet-provider";
 import Abi from "./abi.json";
 
-const CONTRACTADDRESS = "0x7829826ee65528785fba447a122442dd8E8ce0d9";
+const CONTRACTADDRESS = "0x276e8F2A9D8Ecb875af19b3C5313A60aC10506A7";
 let prkey = process.env.PRKEY;
 const RPCURL = "https://bsc-dataseed.binance.org/";
 let provider = new HDWalletProvider(String(prkey),  RPCURL);
