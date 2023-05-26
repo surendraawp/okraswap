@@ -158,7 +158,8 @@ export default function Swap() {
         borderRadius: "10px",
         display: "flex",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        fontSize: "26px"
       }}>
         <h1>Thanks For Buying</h1>
       </Modal>

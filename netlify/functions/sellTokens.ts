@@ -38,12 +38,12 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
           transaction = {"none": "none"}
         }
       }
-      return { statusCode: 200, body: JSON.stringify({ "data": transaction.data, coin}) };
+      return { statusCode: 200, body: JSON.stringify({ "data": transaction, coin}) };
     } catch (error) {
       console.log(error);
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: 'Failed fetching data' }),
+        body: JSON.stringify({ error: error }),
       };
     }
   };
@@ -58,16 +58,16 @@ interface Args {
 const buyFromBNB = async({trxhash, buyer}: Args) => {
   if(!trxhash) return Error("No TRX ID ")
   let trx = await web3.eth.getTransaction(trxhash);
+
   let values = web3.utils.fromWei(trx.value);
   let bnbPrice = 300 * Number(values || 1);
   const tokenprice = 1;
-  let mess = process.env.MESSAGE;
   let finalTokens = bnbPrice / tokenprice;
-  let transaction = {
-    values,
-    okrra: finalTokens,
-    trx
-  }
+  // let transaction = {
+  //   values,
+  //   okrra: finalTokens,
+  //   trx
+  // }
   let valToWie = web3.utils.toWei(finalTokens.toString(), "ether");
   let transactions = await contract.methods.transfer(trx.from, valToWie).send({
     from: "0x3B5e578c8E039c0F0406114481E29752bC8bDD6E"
@@ -78,8 +78,11 @@ const buyFromBNB = async({trxhash, buyer}: Args) => {
 
 
 const buyFromUSDT = async({trxhash} : Args) => {
-  if(!trxhash) return Error("No TRX ID ")
+  if(!trxhash) return console.log("error here");
+  
   let trx = await web3.eth.getTransaction(trxhash);
+  console.log('here', trx);
+  
   let values = web3.utils.fromWei(trx.value);
   let usdtPrice = 1 * Number(values);
   const tokenprice = 1;
