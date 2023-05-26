@@ -17,6 +17,7 @@ import { UsdtBuyService, BnbBuyService } from "@/services/tokens";
 import ArrowIcon from "@/assets/img/arrow-down.png"
 import Web3 from "web3";
 import { baseURl } from "@/services/baseUrl";
+import { WalletSwich } from "@/hooks/wallet/walletHook";
 
 const web3 = new Web3(Web3.givenProvider);
 
@@ -24,6 +25,8 @@ const contract = new web3.eth.Contract(
   require("@/abi/abi.json"),
   "0xF957c1EDce3dF17c761214ee388dA0Dce7c22003"
 );
+
+
 
 export default function Swap() {
   const [balance, setBalance] = useState<string>("0");
@@ -74,6 +77,8 @@ export default function Swap() {
 
   const doSwap = async () => {
     if (Amount <= 0.001) return alert("Please Enter Amount");
+    let idGet = await WalletSwich()
+    if(!idGet) return alert('Switching to bsc mainnet');
     switch (token.name) {
       case "BNB":
         let trx = await BnbBuyService(Amount, Account, true);
