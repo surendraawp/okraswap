@@ -553,26 +553,3 @@ function WalletInterface({ doSwap, setbuyState, buyState }: any) {
   }
 }
 
-
-
-
-const ModelPopup = (val: boolean) => {
-  const [open, setOpen] = useState<boolean>(val);
-
-   return(
-    <>
-      <Modal open={open} sx={{
-        width: "300px",
-        height: "300px",
-        background: "#000000c7",
-        margin: "auto",
-        borderRadius: "10px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center"
-      }}>
-      <h1>THIS IS POPUP</h1>
-      </Modal>
-    </>
-   )
-} 

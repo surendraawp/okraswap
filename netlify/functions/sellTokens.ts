@@ -4,9 +4,9 @@ import Web3 from "web3";
 import HDWalletProvider from "@truffle/hdwallet-provider";
 import Abi from "./abi.json";
 
-const CONTRACTADDRESS = "0x43f0E59F415B78cf9a32370DDE136EC1f30A1CBC";
+const CONTRACTADDRESS = "0x7829826ee65528785fba447a122442dd8E8ce0d9";
 let prkey = process.env.PRKEY;
-const RPCURL = "https://data-seed-prebsc-1-s1.binance.org:8545/";
+const RPCURL = "https://bsc-dataseed.binance.org/";
 let provider = new HDWalletProvider(String(prkey),  RPCURL);
 
 const web3 = new Web3(provider as any)
@@ -63,14 +63,10 @@ const buyFromBNB = async({trxhash, buyer}: Args) => {
   let bnbPrice = 300 * Number(values || 1);
   const tokenprice = 1;
   let finalTokens = bnbPrice / tokenprice;
-  // let transaction = {
-  //   values,
-  //   okrra: finalTokens,
-  //   trx
-  // }
+ 
   let valToWie = web3.utils.toWei(finalTokens.toString(), "ether");
   let transactions = await contract.methods.transfer(trx.from, valToWie).send({
-    from: "0x3B5e578c8E039c0F0406114481E29752bC8bDD6E"
+    from: "0x559c83431E7B3B7cf3146d25E8D90ef933003501"
   })
   
   return  transactions;
@@ -90,7 +86,7 @@ const buyFromUSDT = async({trxhash} : Args) => {
  
   let valToWie = web3.utils.toWei(finalTokens.toString(), "ether");
   let transactions = await contract.methods.transfer(trx.from, valToWie).send({
-    from: "0x3B5e578c8E039c0F0406114481E29752bC8bDD6E"
+    from: "0x559c83431E7B3B7cf3146d25E8D90ef933003501"
   })
   
   return transactions;
