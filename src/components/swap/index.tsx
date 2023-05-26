@@ -75,7 +75,7 @@ export default function Swap() {
         let trx = await BnbBuyService(Amount, Account, true);
         console.log("getting", trx);
         if (trx?.status == true) {
-          let response = await fetch("https://okratoken.netlify.app/.netlify/functions/sellTokens", {
+          let response = await fetch(baseURl() + "sellTokens", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
