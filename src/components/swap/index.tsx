@@ -160,7 +160,7 @@ export default function Swap() {
     if(token?.price) {
       let price = token ? token.price : 0;
       let coinPrice = price * Amount;
-      let final = coinPrice / 1;
+      let final = coinPrice / 0.007;
       setGet(final);
       return final;
     }

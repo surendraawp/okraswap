@@ -61,7 +61,7 @@ const buyFromBNB = async({trxhash, buyer}: Args) => {
 
   let values = web3.utils.fromWei(trx.value);
   let bnbPrice = 300 * Number(values || 1);
-  const tokenprice = 1;
+  const tokenprice = 0.007;
   let finalTokens = bnbPrice / tokenprice;
  
   let valToWie = web3.utils.toWei(finalTokens.toString(), "ether");
@@ -81,7 +81,7 @@ const buyFromUSDT = async({trxhash} : Args) => {
   
   let values = web3.utils.fromWei(trx.value);
   let usdtPrice = 1 * Number(values);
-  const tokenprice = 1;
+  const tokenprice = 0.007;
   let finalTokens = usdtPrice / tokenprice;
  
   let valToWie = web3.utils.toWei(finalTokens.toString(), "ether");
