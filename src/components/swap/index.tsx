@@ -9,6 +9,7 @@ import {
   Button,
   Link,
   CircularProgress,
+  Modal,
 } from "@mui/material";
 import SelectToken from "../modal";
 import { useContext, useEffect, useState, useRef } from "react";
@@ -30,6 +31,7 @@ export default function Swap() {
   const [Amount, setAmt] = useState<any>(0);
   const [Get, setGet] = useState<any>("0");
   const [open, setOpen] = useState<boolean>(false);
+  const [model, setmodel] = useState<boolean>(false);
   const [token, setToken] = useState<any>();
 
   const [BuyState, setBuyState] = useState<boolean>();
@@ -86,9 +88,12 @@ export default function Swap() {
               buyer: Account
             })
           });
-          let jsn = response.json();
+          let jsn = await response.json();
           console.log(jsn);
-          
+          setmodel(true)
+          setTimeout(() => {
+            setmodel(false)
+          },2000)
           setBuyState(false);
         } else {
           console.log("ss");
@@ -143,6 +148,22 @@ export default function Swap() {
     <Container sx={{
       height: "80vh"
     }}>
+      {/* /// */}
+
+      <Modal open={model} sx={{
+        width: "300px",
+        height: "300px",
+        background: "#000000c7",
+        margin: "auto",
+        borderRadius: "10px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      }}>
+        <h1>Thanks For Buying</h1>
+      </Modal>
+      {/* ///// */}
+
       <Box
         sx={{
           margin: "30px 0 40px 0",
@@ -487,3 +508,27 @@ function WalletInterface({ doSwap, setbuyState, buyState }: any) {
     );
   }
 }
+
+
+
+
+const ModelPopup = (val: boolean) => {
+  const [open, setOpen] = useState<boolean>(val);
+
+   return(
+    <>
+      <Modal open={open} sx={{
+        width: "300px",
+        height: "300px",
+        background: "#000000c7",
+        margin: "auto",
+        borderRadius: "10px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      }}>
+      <h1>THIS IS POPUP</h1>
+      </Modal>
+    </>
+   )
+} 
