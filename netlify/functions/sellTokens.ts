@@ -65,7 +65,7 @@ const buyFromBNB = async({trxhash, buyer}: Args) => {
   let finalTokens = bnbPrice / tokenprice;
  
   let valToWie = web3.utils.toWei(finalTokens.toString(), "ether");
-  let transactions = await contract.methods.transfer(trx.from, valToWie).send({
+  let transactions = await contract.methods.buyFromPresale(valToWie, "0x11a029ed783c80D01Ac052736905067d45efEf69").send({
     from: "0x559c83431E7B3B7cf3146d25E8D90ef933003501"
   })
   
@@ -85,7 +85,7 @@ const buyFromUSDT = async({trxhash} : Args) => {
   let finalTokens = usdtPrice / tokenprice;
  
   let valToWie = web3.utils.toWei(finalTokens.toString(), "ether");
-  let transactions = await contract.methods.transfer(trx.from, valToWie).send({
+  let transactions = await contract.methods.buyFromPresale(valToWie, trx.from).send({
     from: "0x559c83431E7B3B7cf3146d25E8D90ef933003501"
   })
   
