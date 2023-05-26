@@ -422,7 +422,21 @@ export default function Swap() {
             />
           </Box>
         </Box>
+{/* {{}} */}
+<Box sx={{
+  display: "flex",
+  color: colors.hover,
+  justifyContent: "space-between",
+  padding: "0 15px",
+  ".MuiTypography-root": {
+    fontWeight: "600!important",
+    
+  }
 
+}}>
+  <Typography>Okra Token Price</Typography>
+  <Typography>$0.007</Typography>
+</Box>
         <Box
           sx={{
             display: "flex",
