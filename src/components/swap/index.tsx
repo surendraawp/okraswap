@@ -31,7 +31,7 @@ export default function Swap() {
   const [Amount, setAmt] = useState<any>(0);
   const [Get, setGet] = useState<any>("0");
   const [open, setOpen] = useState<boolean>(false);
-  const [model, setmodel] = useState<boolean>(true);
+  const [model, setmodel] = useState<boolean>(false);
   const [token, setToken] = useState<any>();
 
   const [trxHASH, settrxHASH] = useState<any>();
