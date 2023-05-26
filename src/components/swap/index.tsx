@@ -157,7 +157,7 @@ export default function Swap() {
   ];
 
   const calculatePrice = () => {
-    if(token.price) {
+    if(token?.price) {
       let price = token ? token.price : 0;
       let coinPrice = price * Amount;
       let final = coinPrice / 1;
