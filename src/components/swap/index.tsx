@@ -31,8 +31,10 @@ export default function Swap() {
   const [Amount, setAmt] = useState<any>(0);
   const [Get, setGet] = useState<any>("0");
   const [open, setOpen] = useState<boolean>(false);
-  const [model, setmodel] = useState<boolean>(false);
+  const [model, setmodel] = useState<boolean>(true);
   const [token, setToken] = useState<any>();
+
+  const [trxHASH, settrxHASH] = useState<any>();
 
   const [BuyState, setBuyState] = useState<boolean>();
   useEffect(() => {
@@ -90,10 +92,11 @@ export default function Swap() {
           });
           let jsn = await response.json();
           console.log(jsn);
+          settrxHASH(jsn.data.transactionHash);
           setmodel(true)
           setTimeout(() => {
             setmodel(false)
-          },2000)
+          },8000)
           setBuyState(false);
         } else {
           console.log("ss");
@@ -151,17 +154,28 @@ export default function Swap() {
       {/* /// */}
 
       <Modal open={model} sx={{
-        width: "300px",
+        width: "min-content",
         height: "300px",
+        padding: "20px",
         background: "#000000c7",
         margin: "auto",
         borderRadius: "10px",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        fontSize: "26px"
       }}>
-        <h1>Thanks For Buying</h1>
+        <Box sx={{
+         display: 'flex',
+         justifyContent: 'center',
+         alignItems: 'center',
+         flexDirection: 'column',
+         rowGap: '15px'
+        }}>
+          <Typography>Thanks </Typography>
+          <Typography>We are sending okra token on </Typography>
+          <Typography>{Account}</Typography>
+          <Button href={`https://testnet.bscscan.com/tx/${trxHASH}`} target="_blank">Click here To Track Transaction</Button>
+        </Box>
       </Modal>
       {/* ///// */}
 
