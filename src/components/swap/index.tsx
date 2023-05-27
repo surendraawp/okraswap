@@ -337,9 +337,9 @@ export default function Swap() {
 
             <TextField
               sx={{
-                textAlign: "end",
-                direction: "rtl",
-                cursor: "cell",
+                input: {
+                  textAlign: "end"
+                }
               }}
               type="text"
               placeholder="Enter Amt"
