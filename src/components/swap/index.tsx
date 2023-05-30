@@ -21,11 +21,14 @@ import { WalletSwich } from "@/hooks/wallet/walletHook";
 
 const web3 = new Web3(Web3.givenProvider);
 
-const contract = new web3.eth.Contract(
-  require("@/abi/abi.json"),
-  "0xF957c1EDce3dF17c761214ee388dA0Dce7c22003"
-);
+// const contract = new web3.eth.Contract(
+//   require("@/abi/abi.json"),
+//   "0xF2b37c637eBB2714b53546993A765DCf2070B34d"
+// );
 
+// const contractPresale = new web3.eth.Contract(require("@/abi/presale.json"), "0x5877a7a5523106f508485983b7aC6accd8f9548C");
+
+// const contractUSDT = new web3.eth.Contract(require("@/abi/usdt.json"), "0x7ef95a0FEE0Dd31b22626fA2e10Ee6A223F8a684");
 
 
 export default function Swap() {
@@ -77,68 +80,102 @@ export default function Swap() {
 
   const doSwap = async () => {
     if (Amount <= 0.001) return alert("Please Enter Amount");
-    let idGet = await WalletSwich()
-    if(!idGet) return alert('Switching to bsc mainnet');
-    switch (token.name) {
+    setBuyState(true);
+
+    switch(token.name) {
       case "BNB":
-        let trx = await BnbBuyService(Amount, Account, true);
-        console.log("getting", trx);
-        if (trx?.status == true) {
-          let response = await fetch(baseURl() + "sellTokens", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              trxhash: trx.transactionHash,
-              coin: token.name,
-              buyer: Account
-            })
-          });
-          let jsn = await response.json();
-          console.log(jsn);
-          settrxHASH(jsn.data.transactionHash);
-          setmodel(true)
-          setTimeout(() => {
-            setmodel(false)
-          },8000)
+        let tx = await BnbBuyService(Amount, Account, true);
+        if(tx?.status == true) {
+          console.log(tx);
           setBuyState(false);
-        } else {
-          console.log("ss");
+            settrxHASH(tx.transactionHash);
+            setmodel(true)
+        }else {
+          console.log(tx);
           setBuyState(false);
         }
-        break;
-      case "USDT": {
-        let trx = await UsdtBuyService(Account, Amount, true);
-        console.log(trx);
-        if (trx?.status == true) {
-          let response = await fetch(baseURl() + "sellTokens", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              trxhash: trx.transactionHash,
-              coin: token.name,
-              buyer: Account
-            })
-          });
-          let jsn = await response.json();
-          console.log(jsn);
-          settrxHASH(jsn.data.transactionHash);
-          setmodel(true)
-          setTimeout(() => {
-            setmodel(false)
-          },8000)
-          setBuyState(false);
-        } else {
-          console.log("ss");
-          setBuyState(false);
+        break
+      case "USDT":
+        let txU = await UsdtBuyService(Account, Amount, true);
+        if(txU == false) {
+          alert('Increase Allowace');
         }
+        if(txU?.transactionHash) {
+          settrxHASH(txU.transactionHash);
+          setmodel(true)
+
+        }
+        console.log(txU, 'trunAround');
+        setBuyState(false)
+        break
+      default: {
+        alert('Select Token');
+        setBuyState(false);
       }
-      default:
-        console.log("no Token Selected");
+        
     }
+    // let idGet = await WalletSwich()
+    // if(!idGet) return alert('Switching to bsc mainnet');
+    // switch (token.name) {
+    //   case "BNB":
+    //     let trx = await BnbBuyService(Amount, Account, true);
+    //     console.log("getting", trx);
+    //     if (trx?.status == true) {
+    //       let response = await fetch(baseURl() + "sellTokens", {
+    //         method: "POST",
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify({
+    //           trxhash: trx.transactionHash,
+    //           coin: token.name,
+    //           buyer: Account
+    //         })
+    //       });
+    //       let jsn = await response.json();
+    //       console.log(jsn);
+    //       settrxHASH(jsn.data.transactionHash);
+    //       setmodel(true)
+    //       setTimeout(() => {
+    //         setmodel(false)
+    //       },8000)
+    //       setBuyState(false);
+    //     } else {
+    //       console.log("ss");
+    //       setBuyState(false);
+    //     }
+    //     break;
+    //   case "USDT": {
+    //     let trx = await UsdtBuyService(Account, Amount, true);
+    //     console.log(trx);
+    //     if (trx?.status == true) {
+    //       let response = await fetch(baseURl() + "sellTokens", {
+    //         method: "POST",
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify({
+    //           trxhash: trx.transactionHash,
+    //           coin: token.name,
+    //           buyer: Account
+    //         })
+    //       });
+    //       let jsn = await response.json();
+    //       console.log(jsn);
+    //       settrxHASH(jsn.data.transactionHash);
+    //       setmodel(true)
+    //       setTimeout(() => {
+    //         setmodel(false)
+    //       },8000)
+    //       setBuyState(false);
+    //     } else {
+    //       console.log("ss");
+    //       setBuyState(false);
+    //     }
+    //   }
+    //   default:
+    //     console.log("no Token Selected");
+    // }
   };
 
   const tokensList = [
@@ -208,7 +245,8 @@ export default function Swap() {
           <Typography>Thanks </Typography>
           <Typography>We are sending okra token on </Typography>
           <Typography>{Account}</Typography>
-          <Button href={`https://testnet.bscscan.com/tx/${trxHASH}`} target="_blank">Click here To Track Transaction</Button>
+          <Button href={`https://bscscan.com//tx/${trxHASH}`} target="_blank">Click here To Track Transaction</Button>
+          <Button onClick={() => setmodel(false)}>Close</Button>
         </Box>
       </Modal>
       {/* ///// */}
@@ -544,7 +582,7 @@ function WalletInterface({ doSwap, setbuyState, buyState }: any) {
               },
             }}
             onClick={() => {
-              doSwap(), setbuyState(true);
+              doSwap();
             }}
           >
             Buy
