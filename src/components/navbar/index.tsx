@@ -5,6 +5,10 @@ import { useContext, useEffect, useState } from 'react';
 // import { WalletContext, WalletProvider } from '@viaprotocol/web3-wallets';
 
 export default function Navbar() {
+
+    // function getCopy() {
+    //     (window as any).
+    // }
     return(
         <>
              {/* <WalletProvider> */}

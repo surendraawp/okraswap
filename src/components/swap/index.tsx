@@ -17,7 +17,7 @@ import { UsdtBuyService, BnbBuyService } from "@/services/tokens";
 import ArrowIcon from "@/assets/img/arrow-down.png"
 import Web3 from "web3";
 import { baseURl } from "@/services/baseUrl";
-import { WalletSwich } from "@/hooks/wallet/walletHook";
+import { WalletSwich, addToken } from "@/hooks/wallet/walletHook";
 
 const web3 = new Web3(Web3.givenProvider);
 
@@ -39,6 +39,7 @@ export default function Swap() {
   const [open, setOpen] = useState<boolean>(false);
   const [model, setmodel] = useState<boolean>(false);
   const [token, setToken] = useState<any>();
+  const [usdSpend, setUSDSpend] = useState<any>();
 
   const [trxHASH, settrxHASH] = useState<any>();
 
@@ -50,10 +51,16 @@ export default function Swap() {
   useEffect(() => {
     if(Account || token) {
       getBalances(token.name);
+      
     }
     setAmt(0);
+    calculateSpedingUSD()
   }, [token, Account]);
 
+
+  useEffect(() => {
+    calculateSpedingUSD()
+  }, [Amount])
   const getBalances = async (token: string) => {
     switch (token) {
       case "USDT":
@@ -103,7 +110,7 @@ export default function Swap() {
         if(txU?.transactionHash) {
           settrxHASH(txU.transactionHash);
           setmodel(true)
-
+          addToken()
         }
         console.log(txU, 'trunAround');
         setBuyState(false)
@@ -211,6 +218,19 @@ export default function Swap() {
     }
   };
 
+  const calculateSpedingUSD = () => {
+    switch(token?.name) {
+      case "BNB": 
+        let p = Number(Amount) * 300;
+        setUSDSpend(p);
+        break
+      case "USDT": 
+        setUSDSpend(Amount);
+        break
+    }
+        
+  }
+
   useEffect(() => {
     calculatePrice();
   }, [calculatePrice]);
@@ -242,10 +262,12 @@ export default function Swap() {
          flexDirection: 'column',
          rowGap: '15px'
         }}>
-          <Typography>Thanks </Typography>
+          <Typography>Thanks</Typography>
           <Typography>We are sending okra token on </Typography>
           <Typography>{Account}</Typography>
           <Button href={`https://bscscan.com//tx/${trxHASH}`} target="_blank">Click here To Track Transaction</Button>
+          <Button onClick={() => addToken()}>Add Okra To Wallet</Button>
+
           <Button onClick={() => setmodel(false)}>Close</Button>
         </Box>
       </Modal>
@@ -373,17 +395,24 @@ export default function Swap() {
               </Box>
             )}
 
-            <TextField
-              sx={{
-                input: {
-                  textAlign: "end"
-                }
-              }}
-              type="text"
-              placeholder="Enter Amt"
-              value={Amount}
-              onChange={(e: any) => setAmt(e.target.value)}
-            />
+            <Box sx={{display: "flex", alignItems: "end", flexDirection: "column"}}> 
+              <TextField
+                sx={{
+                  input: {
+                    textAlign: "end"
+                  }
+                }}
+                type="text"
+                placeholder="Enter Amt"
+                value={Amount}
+                onChange={(e: any) => setAmt(e.target.value)}
+              />
+              <Typography sx={{
+                fontSize: '12px',
+                padding: '0 10px',
+                color: '#ccc'
+              }}>{"$ " + usdSpend}</Typography>
+            </Box>
           </Box>
         </Box>
 
@@ -452,16 +481,33 @@ export default function Swap() {
             ) : (
               "Loading..."
             )}
-            <TextField
+            {/* <TextField
               dir="RTL"
               type="text"
               placeholder="Enter Amt"
               value={Number(Get).toFixed()}
-            />
+            /> */}
+            <Box sx={{display: "flex", alignItems: "end", flexDirection: "column"}}> 
+              <TextField
+                sx={{
+                  input: {
+                    textAlign: "end"
+                  }
+                }}
+                type="text"
+                placeholder="...."
+                value={Number(Get).toFixed()}
+              />
+              <Typography sx={{
+                fontSize: '12px',
+                padding: '0 10px',
+                color: '#ccc'
+              }}>{"Price $" + 0.007}</Typography>
+            </Box>
           </Box>
         </Box>
 {/* {{}} */}
-<Box sx={{
+{/* <Box sx={{
   display: "flex",
   color: colors.hover,
   justifyContent: "space-between",
@@ -475,6 +521,21 @@ export default function Swap() {
   <Typography>Okra Token Price</Typography>
   <Typography>$0.007</Typography>
 </Box>
+<Box sx={{
+  display: "flex",
+  color: colors.hover,
+  justifyContent: "space-between",
+  padding: "0 15px",
+  ".MuiTypography-root": {
+    fontWeight: "600!important",
+    
+  }
+
+}}>
+  <Typography>You'll Spend</Typography>
+  <Typography>${usdSpend}</Typography>
+</Box> */}
+{/*  */}
         <Box
           sx={{
             display: "flex",

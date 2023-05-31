@@ -45,6 +45,19 @@
 	{
 		"inputs": [
 			{
+				"internalType": "address payable",
+				"name": "_address",
+				"type": "address"
+			}
+		],
+		"name": "changeOwner",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "_assetAmount",
 				"type": "uint256"
@@ -82,6 +95,11 @@
 				"internalType": "uint256",
 				"name": "_tokenPrice",
 				"type": "uint256"
+			},
+			{
+				"internalType": "address payable",
+				"name": "_address",
+				"type": "address"
 			}
 		],
 		"stateMutability": "nonpayable",
@@ -115,10 +133,36 @@
 	},
 	{
 		"inputs": [],
+		"name": "contractOwner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "mtkn",
 		"outputs": [
 			{
 				"internalType": "contract OkraToken",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "ownerAccount",
+		"outputs": [
+			{
+				"internalType": "address payable",
 				"name": "",
 				"type": "address"
 			}

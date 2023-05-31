@@ -1,11 +1,12 @@
 import Web3 from "web3";
 
 const web3 = new Web3(Web3.givenProvider);
-const CONTRACPRESALE = "0xCdA8A8dA299fA92baeF4De401799aC395195fF5e";
-const CONTRACTUSDT = "0x276e8F2A9D8Ecb875af19b3C5313A60aC10506A7";
+const CONTRACPRESALE = "0x67FB226D16a8f08f4dEB54aB413eBD07b89c793b";
+const CONTRACTUSDT = "0x55d398326f99059fF775485246999027B3197955";
 
 const BNBUSDT = "0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE";
 const USDTUSD = "0xB97Ad0E74fa7d920791E90258A6E2085088b4320"
+
 const contractPresale = new web3.eth.Contract(require("@/abi/presale.json"), CONTRACPRESALE);
 const contractUSDT = new web3.eth.Contract(require("@/abi/usdt.json"), CONTRACTUSDT);
 
@@ -31,15 +32,12 @@ const UsdtBuyService = async (
   Amount: string,
   buy: boolean
 ) => {
-  const contract = new web3.eth.Contract(
-    require("@/abi/usdt.json"),
-    "0x276e8F2A9D8Ecb875af19b3C5313A60aC10506A7"
-  );
 
   try {
     if (!buy) {
-      let balance = await contract.methods.balanceOf(address).call();
-      return balance;
+      let balance = await contractUSDT.methods.balanceOf(address).call();
+      let converted: any = web3.utils.fromWei(balance, "ether");
+      return converted;
     } else {
       let allounace: string = await contractUSDT.methods.allowance(address, CONTRACPRESALE).call({from: address});
       console.log('d',allounace);
