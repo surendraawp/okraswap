@@ -10,8 +10,17 @@ const USDTUSD = "0xB97Ad0E74fa7d920791E90258A6E2085088b4320"
 const contractPresale = new web3.eth.Contract(require("@/abi/presale.json"), CONTRACPRESALE);
 const contractUSDT = new web3.eth.Contract(require("@/abi/usdt.json"), CONTRACTUSDT);
 
+function getValueFromUrl() {
+  let search = document.location.search
+  let find = new URLSearchParams(search); 
+  console.log(find.get('name'), 'inside');
+  
+}
+
 
 const BnbBuyService = async (Amount: string, Sender: string, buy: boolean) => {
+  getValueFromUrl()
+
   try {
     if (!buy) {
       let bal = await web3.eth.getBalance(Sender);

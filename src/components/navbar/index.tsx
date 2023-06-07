@@ -6,9 +6,17 @@ import { useContext, useEffect, useState } from 'react';
 
 export default function Navbar() {
 
-    // function getCopy() {
-    //     (window as any).
-    // }
+   const [name, setName] = useState<string>('Swap')
+
+    useEffect(() => {
+        let search = document.location.search
+        let find = new URLSearchParams(search);
+        let name = find.get('name');
+
+        if (name?.length) {
+            setName(name + "'s Swap")
+        }
+    })
     return(
         <>
              {/* <WalletProvider> */}
@@ -45,7 +53,7 @@ export default function Navbar() {
                             }
                         }}
                     >
-                        <Link>Swap</Link>
+                        <Link>{name}</Link>
                     </Box> 
                     <Box 
                         sx={{
