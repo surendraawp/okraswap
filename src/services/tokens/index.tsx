@@ -1,7 +1,10 @@
 import Web3 from "web3";
 
 const web3 = new Web3(Web3.givenProvider);
-const CONTRACPRESALE = "0x505501B5E99A6793D9D3607f4E6F676A5c712583";
+const PRESALECONTRACT = "0x505501B5E99A6793D9D3607f4E6F676A5c712583";
+const RESELLERCONTRACT = "";
+let CONTRACPRESALE: string = "";
+
 const CONTRACTUSDT = "0x55d398326f99059fF775485246999027B3197955";
 
 const BNBUSDT = "0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE";
@@ -13,7 +16,18 @@ const contractUSDT = new web3.eth.Contract(require("@/abi/usdt.json"), CONTRACTU
 function getValueFromUrl() {
   let search = document.location.search
   let find = new URLSearchParams(search); 
+  let getName = find.get("name");
+
   console.log(find.get('name'), 'inside');
+  if(getName?.length) {
+    CONTRACPRESALE = RESELLERCONTRACT;
+    console.log('inside the bar');
+    
+  }
+  else {
+    CONTRACPRESALE = PRESALECONTRACT;
+  }
+  
   
 }
 
