@@ -1,9 +1,11 @@
 'use client'
 import { AuthHandler } from "@/services/auth"
+import { auth, signOut } from "@/services/firebase"
 import { colors } from "@/theme/theme"
 import {Container,Box} from "@mui/material"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+
 
 const DashComponentLayout = ({children}: {
     children: React.ReactNode
@@ -12,6 +14,10 @@ const DashComponentLayout = ({children}: {
     useEffect(() => {
         AuthHandler();
     })
+    const SignOut = () => {
+        signOut(auth)
+        window.location.replace("/login")
+    }
     return (
         <>
            <Box sx={{
@@ -43,6 +49,7 @@ const DashComponentLayout = ({children}: {
                 <Link href={"/dashboard/"}>Stats</Link>
                 <Link href={"/dashboard/activate"}>Activate</Link>
                 <Link href={"/dashboard/orders"}>Orders</Link>
+                <Link href={"#"} onClick={() => SignOut()}>LogOut</Link>
             </Box>
             <Box sx={{
                 padding: "20px 40px"
