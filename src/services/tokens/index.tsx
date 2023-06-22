@@ -13,21 +13,32 @@ let contractPresale = new web3.eth.Contract(require("@/abi/presale.json"), getVa
 
 
 function getValueFromUrl() {
-  let search = document.location.search
-  let find = new URLSearchParams(search); 
-  let getName = find.get("name") || "";
+  if(typeof window != undefined) {
+    // setInterval(() => {
+      try {
+        let search = document?.location.search
+      let find = new URLSearchParams(search); 
+      let getName = find.get("name") || "";
 
-  console.log(find.get('name'), 'inside');
-  if(getName?.length > 2) {
-    // CONTRACPRESALE = RESELLERCONTRACT;
-    console.log('inside the bar');
-    return RESELLERCONTRACT
+      console.log(find.get('name'), 'inside');
+      if(getName?.length > 2) {
+        // CONTRACPRESALE = RESELLERCONTRACT;
+        console.log('inside the bar');  
+        return RESELLERCONTRACT
+      }
+      else {
+        console.log('else');
+        // CONTRACPRESALE = PRESALECONTRACT;
+        return PRESALECONTRACT
+      }
+      } catch (error) {
+        return PRESALECONTRACT
+        
+      }
+    // },2000)
   }
-  else {
-    console.log('else');
-    // CONTRACPRESALE = PRESALECONTRACT;
-    return PRESALECONTRACT
-  }
+
+  
 }
 
 
