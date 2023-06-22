@@ -65,7 +65,7 @@ export default function Swap() {
   }, [Amount])
 
   useEffect(() => {
-    let search = document.location.search
+    let search = (document as any).location.search
     let find = new URLSearchParams(search);
     let name = find.get('name');
 

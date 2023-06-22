@@ -21,15 +21,15 @@ export default function Profile() {
         console.log(elementRef.current?.innerHTML);
         
         if (elementRef.current) {
-            const range = document.createRange();
-            range.selectNode(elementRef.current);
+            // const range = (document as any).createRange();
+            // range.selectNode(elementRef.current);
       
-            window.getSelection()?.removeAllRanges();
-            window.getSelection()?.addRange(range);
+            // (window as any).getSelection()?.removeAllRanges();
+            // (window as any).getSelection()?.addRange(range);
       
-            document.execCommand('copy');
-            alert(`Copied:- ${elementRef.current.innerHTML}`)
-            window.getSelection()?.removeAllRanges();
+            // (document as any).execCommand('copy');
+            // // alert(`Copied:- ${elementRef.current.innerHTML}`)
+            // (window as any).getSelection()?.removeAllRanges();
           }
 
     }

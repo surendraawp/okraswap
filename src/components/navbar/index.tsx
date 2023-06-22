@@ -10,7 +10,7 @@ export default function Navbar() {
    const [name, setName] = useState<string>('Swap')
     let router = useRouter()
     useEffect(() => {
-        let search = document.location.search
+        let search = (document as any).location.search
         let find = new URLSearchParams(search);
         let name = find.get('name');
 
