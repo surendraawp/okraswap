@@ -1,9 +1,10 @@
+import Profile from "@/components/dashboard/profile"
 
 
 export default function Page() {
     return (
         <>
-            <h1>User Name</h1>
+            <Profile />
         </>
     )
 }

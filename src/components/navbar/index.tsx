@@ -2,12 +2,13 @@
 import {AppBar, Container, Box, Link, Button} from '@mui/material';
 import { colors } from '@/theme/theme';
 import { useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 // import { WalletContext, WalletProvider } from '@viaprotocol/web3-wallets';
 
 export default function Navbar() {
 
    const [name, setName] = useState<string>('Swap')
-
+    let router = useRouter()
     useEffect(() => {
         let search = document.location.search
         let find = new URLSearchParams(search);
@@ -36,7 +37,9 @@ export default function Navbar() {
                             width: "100px",
                             cursor: "pointer"
                         }
-                    }}>
+                    }}
+                    onClick={() => router.push("/")}
+                    >
                         <img src="https://okratoken.com/images/OKRT_Coin01.png" alt="okratoken"  />
                     </Box>
                     <Box 

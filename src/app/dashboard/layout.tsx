@@ -51,11 +51,11 @@ const DashComponentLayout = ({children}: {
                 <Link href={"/dashboard/orders"}>Orders</Link>
                 <Link href={"#"} onClick={() => SignOut()}>LogOut</Link>
             </Box>
-            <Box sx={{
+            <Container sx={{
                 padding: "20px 40px"
             }}>
                 {children}
-            </Box>
+            </Container>
 
            </Box>
         </>

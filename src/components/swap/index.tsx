@@ -43,6 +43,8 @@ export default function Swap() {
 
   const [trxHASH, settrxHASH] = useState<any>();
 
+
+  const[price, setprice] = useState<Number>();
   const [BuyState, setBuyState] = useState<boolean>();
   useEffect(() => {
     setAcc();    
@@ -61,6 +63,20 @@ export default function Swap() {
   useEffect(() => {
     calculateSpedingUSD()
   }, [Amount])
+
+  useEffect(() => {
+    let search = document.location.search
+    let find = new URLSearchParams(search);
+    let name = find.get('name');
+
+    if (name?.length) {
+      setprice(0.006);
+    }
+    else {
+      setprice(0.007)
+    }
+})
+
   const getBalances = async (token: string) => {
     switch (token) {
       case "USDT":
@@ -502,7 +518,7 @@ export default function Swap() {
                 fontSize: '12px',
                 padding: '0 10px',
                 color: '#ccc'
-              }}>{"Price $" + 0.007}</Typography>
+              }}>{"Price $" + price}</Typography>
             </Box>
           </Box>
         </Box>
