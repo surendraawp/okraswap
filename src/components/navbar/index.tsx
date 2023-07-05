@@ -3,6 +3,7 @@ import {AppBar, Container, Box, Link, Button} from '@mui/material';
 import { colors } from '@/theme/theme';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { addToken } from '@/hooks/wallet/walletHook';
 // import { WalletContext, WalletProvider } from '@viaprotocol/web3-wallets';
 
 export default function Navbar() {
@@ -27,6 +28,7 @@ export default function Navbar() {
                 <Box sx={{
                     display: 'flex',
                     width: "100%",
+                    boxSizing: "border-box",
                     padding: "10px 0",
                     justifyContent: "space-between",
                     alignItems: "center",
@@ -60,7 +62,9 @@ export default function Navbar() {
                     </Box> 
                     <Box 
                         sx={{
-                            backgroundColor: 'red',
+                            // backgroundColor: 'red',  
+                            display: "flex",
+                            columnGap: "10px",
                             a: {
                                 padding: "10px",
                                 textDecoration: "none",
@@ -72,7 +76,9 @@ export default function Navbar() {
                             }
                         }}
                     >
-                        
+                        <Link onClick={addToken}>
+                            Add Token
+                        </Link>
                         <WalletInterface />
 
                     </Box>
@@ -131,7 +137,7 @@ function WalletInterface() {
         setADd(accounts[0])
         console.log(accounts[0]);
      }
-
+     
 
         if(!add) {
             return(

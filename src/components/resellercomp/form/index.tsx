@@ -1,5 +1,5 @@
 'use client'
-import { db } from "@/services/firebase";
+import { db, auth, createUserWithEmailAndPassword } from "@/services/firebase";
 import { colors } from "@/theme/theme";
 import { Box, Container, Typography, TextField, Button } from "@mui/material";
 import { collection, addDoc } from "firebase/firestore";
@@ -10,6 +10,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 interface FormData {
     name: string,
     email: string,
+    password: string,
     wallet: string,
     phone: number,
     message: string
@@ -26,9 +27,17 @@ export default function ResellerForm() {
     
     const storeToFirebase = async (data: FormData) => {
         setAdd(true);
+        
         try {
-            const docRef = await addDoc(collection(db, "resellers"), data);
+
+           let newUser = await createUserWithEmailAndPassword(auth, data.email, data.password);
+            if((newUser).user.uid) {
+                console.log(newUser.user.uid);
+                
+            const docRef = await addDoc(collection(db, "resellers"), {...data, uid: newUser.user.uid});
             console.log("Document written with ID: ", docRef.id);
+        }
+
             reset();
           } catch (e) {
             console.error("Error adding document: ", e);
@@ -65,6 +74,7 @@ export default function ResellerForm() {
                 <form onSubmit={handleSubmit(onSubmit)} >
                     <TextField placeholder="You're name" {...register("name", { required: true })} error={Boolean(errors.name)}/>
                     <TextField placeholder="Email Address" type="email" {...register("email", { required: true })} error={Boolean(errors.email)}/>
+                    <TextField placeholder="Password" type="password" {...register("password", { required: true })} error={Boolean(errors.password)}/>
                     <TextField placeholder="Wallet Address(BEP20)" type="text" {...register("wallet", { required: true })} error={Boolean(errors.wallet)}/>
                     <TextField placeholder="Phone Number" type="number" {...register("phone", { required: true, minLength: 10, maxLength: 12 })} error={Boolean(errors.phone)}/>
                     <TextField placeholder="Message" type="text" {...register("message", { required: true,  })} error={Boolean(errors.message)} />

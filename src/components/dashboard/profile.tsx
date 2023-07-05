@@ -1,5 +1,6 @@
 'use client'
-import { auth } from "@/services/firebase"
+import { auth,db } from "@/services/firebase"
+
 import { colors } from "@/theme/theme";
 import {Container, Box,Typography, Skeleton } from "@mui/material"
 import { useEffect, useRef, useState } from "react"
@@ -8,6 +9,7 @@ import { BorderBreak, Wrapper } from "../utils/reuseable";
 import { useRouter } from "next/navigation";
 import { baseURl } from "@/services/baseUrl";
 import { CopyIcon } from "@/assets/icons/icons";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 
 
@@ -21,27 +23,38 @@ export default function Profile() {
         console.log(elementRef.current?.innerHTML);
         
         if (elementRef.current) {
-            // const range = (document as any).createRange();
-            // range.selectNode(elementRef.current);
+            const range = (document as any).createRange();
+            range.selectNode(elementRef.current);
       
-            // (window as any).getSelection()?.removeAllRanges();
-            // (window as any).getSelection()?.addRange(range);
+            (window as any).getSelection()?.removeAllRanges();
+            (window as any).getSelection()?.addRange(range);
       
-            // (document as any).execCommand('copy');
-            // // alert(`Copied:- ${elementRef.current.innerHTML}`)
-            // (window as any).getSelection()?.removeAllRanges();
+            (document as any).execCommand('copy');
+            alert(`Copied:- ${elementRef.current.innerHTML}`) as any
+            (window as any).getSelection()?.removeAllRanges();
           }
 
+
     }
+
     useEffect(() => {
         let load = true;
         console.log('runntime');
         
-        setTimeout(() => {
+        setTimeout( async() => {
+           
             let usr = auth.currentUser;
+             let q =  query(collection(db, "resellers"), where("uid", "==", usr?.uid));
+            let data = await getDocs(q);
+            if(!data) return
+            data.forEach(snap => {
+                console.log(snap.data());
+                setUser(snap.data())
+                
+            })
+            
             if(usr != null) {
                 console.log(usr);
-                setUser(usr)
                 load = false
             }
         }, 1000);
@@ -57,17 +70,15 @@ export default function Profile() {
                     gap: "20px",
             }}>
                    <Box sx={mainBox}>
-                     <Typography variant="h5"> Welcome {user?.email}</Typography>
+                     <Typography variant="h5"> Welcome {user?.name}</Typography>
                      <BorderBreak />
-                     <Typography>You can start reselling okra token at the price of $0.007/OKRT, just activate your account from the activate tab</Typography>
+                     <Typography>You can start reselling okra token at the price of $0.006/OKRT, just activate your account from the activate tab</Typography>
                    </Box>
                    <Box sx={mainBox}>
                      <Typography variant="h5">Your Referral Url</Typography>
                      <BorderBreak />
                      <Typography onClick={handleCopy} ref={elementRef}>
-                        {baseURl()}
-            
-                        📋
+                        {`https://buy.okratoken.com?name=${user.name}&id=${user.wallet}`}                        
                         </Typography>
                    </Box>
                 </Box>
