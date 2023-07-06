@@ -17,7 +17,7 @@ import { UsdtBuyService, BnbBuyService } from "@/services/tokens";
 import ArrowIcon from "@/assets/img/arrow-down.png"
 import Web3 from "web3";
 import { baseURl } from "@/services/baseUrl";
-import { WalletSwich, addToken } from "@/hooks/wallet/walletHook";
+import { WalletSwich, addToken, checkChainId } from "@/hooks/wallet/walletHook";
 
 const web3 = new Web3(Web3.givenProvider);
 
@@ -103,6 +103,8 @@ export default function Swap() {
 
   const doSwap = async () => {
     if (Amount <= 0.001) return alert("Please Enter Amount");
+    let checkChian = await checkChainId();
+    if(!checkChian) return alert('Switch To BSC')
     setBuyState(true);
 
     switch(token.name) {
@@ -292,7 +294,15 @@ export default function Swap() {
       <Box
         sx={{
           margin: "30px 0 40px 0",
-          color: colors.white
+          color: colors.white,
+          h1: {
+            fontSize: {
+              xs: '48px',
+              sm: '56px'
+
+            },
+            // display: 'none'
+          }
         }}
         
       >
@@ -303,7 +313,10 @@ export default function Swap() {
       <Box
         sx={{
           backgroundColor: colors.white,
-          width: "50%",
+          width: {
+            sm: "50%",
+            xs: "100%"
+          },
           margin: "auto",
           padding: "30px",
           borderRadius: "10px",

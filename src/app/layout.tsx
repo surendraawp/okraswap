@@ -12,6 +12,7 @@ export const metadata = {
 import {RecoilRootC} from './recoil'
 import { AuthHandler } from '@/services/auth'
 import { usePathname } from 'next/navigation'
+import Footer from '@/components/footer'
 // import { useEffect } from 'react'
 
 export default function RootLayout({
@@ -31,7 +32,7 @@ export default function RootLayout({
             {children}
 
         </RecoilRootC>
-
+    <Footer/>
         </body>
 
     </html>

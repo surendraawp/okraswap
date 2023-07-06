@@ -27,6 +27,11 @@ export default function Navbar() {
                 <Container>
                 <Box sx={{
                     display: 'flex',
+                    flexDirection: {
+                        xs: 'column',
+                        sm: 'row'
+                    },
+                    rowGap: '10px',
                     width: "100%",
                     boxSizing: "border-box",
                     padding: "10px 0",
@@ -37,7 +42,8 @@ export default function Navbar() {
                     <Box sx={{
                         img: {
                             width: "100px",
-                            cursor: "pointer"
+                            cursor: "pointer",
+                            margin:'-20px'
                         }
                     }}
                     onClick={() => router.push("/")}

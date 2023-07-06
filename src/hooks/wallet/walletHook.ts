@@ -1,16 +1,51 @@
 const WalletSwich = async () => {
     let chainId = await (window as any).ethereum.request({ method: 'eth_chainId' });    
     if(chainId == "0x38") {
+        alert('already on bsc')
         return true
     }
     else {
-        await (window as any).ethereum.request({method: "wallet_switchEthereumChain", params: [{chainId: "0x38"}]})
+       try {
+          await (window as any).ethereum.request({
+            method: "wallet_switchEthereumChain", 
+            params: [{chainId: "0x38"}]
+          })
+          return false
+       } catch (error) {
+        if((error as any).code === 4902) {
+          try {
+            await (window as any).ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [
+                {
+                  chainId: '0x38',
+                  chainName: 'BSC MAIN',
+                  rpcUrls: ['https://bsc-dataseed.binance.org/'] /* ... */,
+                },
+              ],
+            });
+            return false
+          } catch (addError) {
+            // handle "add" error
+          }
+        }
+       }
         return false
     }
     
 }
 
+const checkChainId = async () => {
+  let chainId = await (window as any).ethereum.request({ method: 'eth_chainId' });    
+  if(chainId == "0x38") {
+    return true
+  }
+  return false
+} 
+
 const addToken = async () => {
+  let checkChain = await checkChainId();
+  if(!checkChain) return alert('swich chain to bsc')
     const wasAdded = await (window as any).ethereum.request({
         method: 'wallet_watchAsset',
         params: {
@@ -27,4 +62,4 @@ const addToken = async () => {
       
 }
 
-export {WalletSwich, addToken}
+export {WalletSwich, addToken, checkChainId}
