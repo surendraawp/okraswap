@@ -258,7 +258,10 @@ export default function Swap() {
   }
   return (
     <Container sx={{
-      height: "80vh"
+      height: {
+        xs: 'auto',
+        sm: "80vh"
+      }
     }}>
       {/* /// */}
 
