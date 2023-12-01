@@ -27,12 +27,10 @@ export default function RootLayout({
       <body className={inter.className}>
 
         <Navbar />
-        <RecoilRootC>
-            
-            {children}
-
-        </RecoilRootC>
-    <Footer/>
+          <RecoilRootC>
+              {children}
+          </RecoilRootC>
+        <Footer/>
         </body>
 
     </html>
