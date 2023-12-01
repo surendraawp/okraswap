@@ -70,10 +70,10 @@ export default function Swap() {
     let name = find.get('name');
 
     if (name?.length) {
-      setprice(0.006);
+      setprice(0.0005);
     }
     else {
-      setprice(0.005)
+      setprice(0.0005)
     }
 })
 
@@ -227,7 +227,7 @@ export default function Swap() {
     if(token?.price) {
       let price = token ? token.price : 0;
       let coinPrice = price * Amount;
-      let final = coinPrice / 0.005;
+      let final = coinPrice / 0.0005;
       setGet(final);
       return final;
     }
