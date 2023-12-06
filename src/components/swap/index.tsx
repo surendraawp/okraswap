@@ -13,11 +13,12 @@ import {
 } from "@mui/material";
 import SelectToken from "../modal";
 import { useContext, useEffect, useState, useRef } from "react";
-import { UsdtBuyService, BnbBuyService } from "@/services/tokens";
+import { UsdtBuyService, BnbBuyService, ShibBuyService } from "@/services/tokens";
 import ArrowIcon from "@/assets/img/arrow-down.png"
 import Web3 from "web3";
 import { baseURl } from "@/services/baseUrl";
 import { WalletSwich, addToken, checkChainId } from "@/hooks/wallet/walletHook";
+import {getPriceUSD} from "../../hooks/wallet/price";
 
 const web3 = new Web3(Web3.givenProvider);
 
@@ -43,6 +44,7 @@ export default function Swap() {
 
   const [trxHASH, settrxHASH] = useState<any>();
 
+  const [USD_PRICE, setUSDPRICE] = useState<number>(0);
 
   const[price, setprice] = useState<Number>();
   const [BuyState, setBuyState] = useState<boolean>();
@@ -57,6 +59,7 @@ export default function Swap() {
     }
     setAmt(0);
     calculateSpedingUSD()
+
   }, [token, Account]);
 
 
@@ -87,9 +90,19 @@ export default function Swap() {
         let bals = await BnbBuyService("", Account, false);
         setBalance(bals);
         break;
+      case "SHIB":
+        let balso = await ShibBuyService("", Account, false);
+        setBalance(balso);
+        break;
       default:
         console.log("Not working");
     }
+    let p = await getPriceUSD(token);
+    console.log("pp", p);
+    setUSDPRICE(p);
+    
+
+
   };
 
   const setAcc = async () => {
@@ -131,6 +144,19 @@ export default function Swap() {
           addToken()
         }
         console.log(txU, 'trunAround');
+        setBuyState(false)
+        break
+      case "SHIB":
+        let txS = await ShibBuyService(Account, Amount, true);
+        if(txS == false) {
+          alert('Increase Allowace');
+        }
+        if(txS?.transactionHash) {
+          settrxHASH(txS.transactionHash);
+          setmodel(true)
+          addToken()
+        }
+        console.log(txS, 'trunAround');
         setBuyState(false)
         break
       default: {
@@ -214,6 +240,16 @@ export default function Swap() {
       icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/825.png",
       price: 1,
     },
+    {
+      name: "SHIB",
+      icon: "https://bscscan.com/token/images/shibatoken_32.png",
+      price: 0.00001,
+    },
+    {
+      name: "BTC",
+      icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png",
+      price: 42000,
+    },
   ];
 
   const OkraToken = [
@@ -225,8 +261,9 @@ export default function Swap() {
 
   const calculatePrice = () => {
     if(token?.price) {
+      
       let price = token ? token.price : 0;
-      let coinPrice = price * Amount;
+      let coinPrice = USD_PRICE * Amount;
       let final = coinPrice / 0.0005;
       setGet(final);
       return final;
@@ -237,15 +274,27 @@ export default function Swap() {
   };
 
   const calculateSpedingUSD = () => {
-    switch(token?.name) {
-      case "BNB": 
-        let p = Number(Amount) * 300;
-        setUSDSpend(p);
-        break
-      case "USDT": 
-        setUSDSpend(Amount);
-        break
-    }
+    console.log(USD_PRICE, "calcualted price");
+    let p = +(Number(Amount) * USD_PRICE).toFixed(5);
+    setUSDSpend(p);
+    // switch(token?.name) {
+    //   // case "BNB": 
+    //   //   let p = Number(Amount) * USD_PRICE;
+    //   //   setUSDSpend(p);
+    //   //   break
+    //   // case "USDT": 
+    //   //   setUSDSpend(Amount);
+    //   //   break
+    //   // case "SHIB": 
+    //   //   setUSDSpend(Amount);
+    //   //   break
+      
+    //   case "default": 
+    //     let p = Number(Amount) * USD_PRICE;
+    //     setUSDSpend(p);
+    //     break
+    //     // break
+    // }
         
   }
 
