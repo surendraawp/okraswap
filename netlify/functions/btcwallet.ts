@@ -10,31 +10,34 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
 
         // console.log(event.body);
         
-        const paymentInfo = JSON.parse(event.body as any);
+        // const paymentInfo = JSON.parse(event.rawQuery as any);
 
         console.log(event.rawQuery);
         
 
-        console.log(paymentInfo, "body");
+        // console.log(paymentInfo, "body");
         
                 // Verify payment status and process the order accordingly
-        if (paymentInfo.status === 'Confirmed') {
-            // Payment confirmed, fulfill the order
-            console.log('Payment confirmed:', paymentInfo);
-            // Your code to fulfill the order
-        } else {
-            console.log('Payment not confirmed:', paymentInfo);
-            // Handle other payment statuses if needed
-        }
+        // if (paymentInfo.status === 'Confirmed') {
+        //     // Payment confirmed, fulfill the order
+        //     console.log('Payment confirmed:', paymentInfo);
+        //     // Your code to fulfill the order
+        // } else {
+        //     console.log('Payment not confirmed:', paymentInfo);
+        //     // Handle other payment statuses if needed
+        // }
 
         
         return {
             statusCode: 200,
             body: JSON.stringify({
-                message: "success"
+                message: "success",
+                data: event?.rawQuery
             })
         }
     } catch (error) {
+        console.log("eror log");
+        
         return {
             statusCode: 400,
             body: JSON.stringify({
