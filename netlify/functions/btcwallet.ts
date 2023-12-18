@@ -4,36 +4,36 @@ import axios from "axios";
 // import ws from "ws";
 
 
-const hanlder: Handler = async (event: HandlerEvent, context: HandlerContext) => {
+const handler: Handler = async (event: HandlerEvent, context: HandlerContext) => {
     try {
        
 
-        console.log(event.body);
+        // console.log(event.body);
         
         const paymentInfo = JSON.parse(event.body as any);
 
-        console.log(paymentInfo);
+        console.log(paymentInfo, "body");
         
                 // Verify payment status and process the order accordingly
-                if (paymentInfo.status === 'Confirmed') {
-                  // Payment confirmed, fulfill the order
-                  console.log('Payment confirmed:', paymentInfo);
-                  // Your code to fulfill the order
-                } else {
-                  console.log('Payment not confirmed:', paymentInfo);
-                  // Handle other payment statuses if needed
-                }
+        if (paymentInfo.status === 'Confirmed') {
+            // Payment confirmed, fulfill the order
+            console.log('Payment confirmed:', paymentInfo);
+            // Your code to fulfill the order
+        } else {
+            console.log('Payment not confirmed:', paymentInfo);
+            // Handle other payment statuses if needed
+        }
 
         
         return {
             statusCode: 200,
             body: JSON.stringify({
-                message: "succes"
+                message: "success"
             })
         }
     } catch (error) {
         return {
-            statusCode: 200,
+            statusCode: 400,
             body: JSON.stringify({
                 message: "succes"
             })
@@ -41,4 +41,4 @@ const hanlder: Handler = async (event: HandlerEvent, context: HandlerContext) =>
     }
 }
 
-export {hanlder}
+export {handler}
