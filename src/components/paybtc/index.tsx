@@ -20,7 +20,6 @@ export default function PayWithBtc ({amt, wallet, callback}: Props) {
 
     function payWithBitcoin() {
         console.log("testing the button");
-        // eslint-disable-next-line no-undef
         Blockonomics.widget({ 
             msg_area: 'bitcoinpay',
             uid: uid,
