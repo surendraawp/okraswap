@@ -22,6 +22,11 @@ import {getPriceUSD} from "../../hooks/wallet/price";
 
 const web3 = new Web3(Web3.givenProvider);
 
+
+// const Client = require("bitcoin-core")
+
+// import Client from "bitcoin-core" 
+
 // const contract = new web3.eth.Contract(
 //   require("@/abi/abi.json"),
 //   "0xF2b37c637eBB2714b53546993A765DCf2070B34d"
@@ -80,6 +85,23 @@ export default function Swap() {
     }
 })
 
+
+  const getBTCPRICES = async () => {
+    try {
+      console.log("inside bitcoin");
+      
+      // const intItem = new Client({network: "https://go.getblock.io/71ed136a7a0749818a544c30907ee733"});
+      
+
+      // console.log(intItem.getBalance("*", 0));
+      // console.log();
+      
+      
+    } catch (error) {
+      
+    }
+  }
+
   const getBalances = async (token: string) => {
     switch (token) {
       case "USDT":
@@ -98,7 +120,7 @@ export default function Swap() {
         console.log("Not working");
     }
     let p = await getPriceUSD(token);
-    console.log("pp", p);
+    getBTCPRICES()
     setUSDPRICE(p);
     
 
