@@ -2,87 +2,6 @@
 	{
 		"inputs": [
 			{
-				"internalType": "contract IERC20",
-				"name": "_token",
-				"type": "address"
-			},
-			{
-				"internalType": "contract OkraToken",
-				"name": "_mtkn",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_tokenPrice",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address payable",
-				"name": "_address",
-				"type": "address"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "tokensAmount",
-				"type": "uint256"
-			}
-		],
-		"name": "LogTokensAmount",
-		"type": "event"
-	},
-	{
-		"inputs": [],
-		"name": "anyToken",
-		"outputs": [
-			{
-				"internalType": "contract IERC20",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_agrigatorAdr",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_buyer",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "usdtAmount",
-				"type": "uint256"
-			}
-		],
-		"name": "buyFromBTC",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "address",
 				"name": "_agrigatorAdr",
 				"type": "address"
@@ -137,19 +56,6 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "contractOwner",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -176,15 +82,48 @@
 	{
 		"inputs": [
 			{
+				"internalType": "contract IERC20",
+				"name": "_token",
+				"type": "address"
+			},
+			{
+				"internalType": "contract OkraToken",
+				"name": "_mtkn",
+				"type": "address"
+			},
+			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "_tokenPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address payable",
+				"name": "_address",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "tokensAmount",
 				"type": "uint256"
 			}
 		],
-		"name": "groupOne",
+		"name": "LogTokensAmount",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "anyToken",
 		"outputs": [
 			{
-				"internalType": "address",
+				"internalType": "contract IERC20",
 				"name": "",
 				"type": "address"
 			}
@@ -193,14 +132,8 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "groupTwo",
+		"inputs": [],
+		"name": "contractOwner",
 		"outputs": [
 			{
 				"internalType": "address",

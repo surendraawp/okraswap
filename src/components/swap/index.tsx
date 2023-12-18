@@ -22,6 +22,7 @@ import {getPriceUSD} from "../../hooks/wallet/price";
 
 const web3 = new Web3(Web3.givenProvider);
 
+import PayWithBtc from "../paybtc";
 
 // const Client = require("bitcoin-core")
 
@@ -53,6 +54,15 @@ export default function Swap() {
 
   const[price, setprice] = useState<Number>();
   const [BuyState, setBuyState] = useState<boolean>();
+  const [BtcState, setBtcState] = useState<boolean>();
+
+  // const uid = "82b013bf3bc64a9f";
+  
+  // let Blockonomics = {};
+
+
+  // eslint-disable-next-line
+
   useEffect(() => {
     setAcc();    
   }, [0]);
@@ -116,15 +126,16 @@ export default function Swap() {
         let balso = await ShibBuyService("", Account, false);
         setBalance(balso);
         break;
+      case "BTC":
+        // let balso = await ShibBuyService("", Account, false);
+        // setBalance(balso);
+        break;
       default:
         console.log("Not working");
     }
     let p = await getPriceUSD(token);
     getBTCPRICES()
     setUSDPRICE(p);
-    
-
-
   };
 
   const setAcc = async () => {
@@ -136,6 +147,16 @@ export default function Swap() {
     }
   };
 
+  const handleCallback = async (e: any) => {
+    try {
+      console.log(e);
+      setmodel(true)
+      
+    } catch (error) {
+      
+    }
+  }
+
   const doSwap = async () => {
     if (Amount <= 0.001) return alert("Please Enter Amount");
     let checkChian = await checkChainId();
@@ -143,6 +164,11 @@ export default function Swap() {
     setBuyState(true);
 
     switch(token.name) {
+      case "BTC": {
+        alert("perform btc task")
+        setBtcState(true)
+        break
+      }
       case "BNB":
         let tx = await BnbBuyService(Amount, Account, true);
         if(tx?.status == true) {
@@ -391,11 +417,12 @@ export default function Swap() {
             sm: "50%",
             xs: "100%"
           },
+          // display: "none",
           margin: "auto",
           padding: "30px",
           borderRadius: "10px",
           rowGap: "40px",
-          display: "flex",
+          display:  BtcState ? "none" : "flex",
           flexDirection: "column",
           color: colors.white,
           boxShadow: `0px 0 4px 2px ${colors.hover}`,
@@ -407,6 +434,7 @@ export default function Swap() {
             backgroundColor: "#121212",
             padding: "20px",
             borderRadius: "30px",
+
           }}
         >
           <Box
@@ -584,12 +612,6 @@ export default function Swap() {
             ) : (
               "Loading..."
             )}
-            {/* <TextField
-              dir="RTL"
-              type="text"
-              placeholder="Enter Amt"
-              value={Number(Get).toFixed()}
-            /> */}
             <Box sx={{display: "flex", alignItems: "end", flexDirection: "column"}}> 
               <TextField
                 sx={{
@@ -609,36 +631,7 @@ export default function Swap() {
             </Box>
           </Box>
         </Box>
-{/* {{}} */}
-{/* <Box sx={{
-  display: "flex",
-  color: colors.hover,
-  justifyContent: "space-between",
-  padding: "0 15px",
-  ".MuiTypography-root": {
-    fontWeight: "600!important",
-    
-  }
 
-}}>
-  <Typography>Okra Token Price</Typography>
-  <Typography>$0.007</Typography>
-</Box>
-<Box sx={{
-  display: "flex",
-  color: colors.hover,
-  justifyContent: "space-between",
-  padding: "0 15px",
-  ".MuiTypography-root": {
-    fontWeight: "600!important",
-    
-  }
-
-}}>
-  <Typography>You'll Spend</Typography>
-  <Typography>${usdSpend}</Typography>
-</Box> */}
-{/*  */}
         <Box
           sx={{
             display: "flex",
@@ -652,6 +645,31 @@ export default function Swap() {
           />
         </Box>
       </Box>
+
+      {
+         BtcState ? 
+        <Box sx={{
+          backgroundColor: colors.white,
+          width: {
+            sm: "50%",
+            xs: "100%"
+          },
+          // display: "none",
+          margin: "auto",
+          padding: "30px",
+          borderRadius: "10px",
+          rowGap: "40px",
+          display: "flex",
+          flexDirection: "column",
+          color: colors.white,
+          boxShadow: `0px 0 4px 2px ${colors.hover}`,
+        }}>
+
+       <PayWithBtc amt={Amount} wallet={Account} totalValue="0"  callback={(e: any) =>handleCallback(e) }/>
+        </Box>
+        : ""
+      }
+
       <SelectToken
         onChange={(e: any) => {
           setToken(e);

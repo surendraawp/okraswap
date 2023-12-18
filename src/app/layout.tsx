@@ -23,7 +23,10 @@ export default function RootLayout({
     
   return (
     <html lang="en">
+      <head>
+        <script src="https://blockonomics.co/js/pay_widget.js" defer></script>
 
+      </head>
       <body className={inter.className}>
 
         <Navbar />
@@ -32,6 +35,7 @@ export default function RootLayout({
           </RecoilRootC>
         <Footer/>
         </body>
+        
 
     </html>
   )
