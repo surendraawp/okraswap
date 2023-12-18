@@ -12,6 +12,9 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
         
         const paymentInfo = JSON.parse(event.body as any);
 
+        console.log(event.rawQuery);
+        
+
         console.log(paymentInfo, "body");
         
                 // Verify payment status and process the order accordingly
