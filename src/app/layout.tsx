@@ -13,6 +13,7 @@ import {RecoilRootC} from './recoil'
 import { AuthHandler } from '@/services/auth'
 import { usePathname } from 'next/navigation'
 import Footer from '@/components/footer'
+import Script from 'next/script'
 // import { useEffect } from 'react'
 
 export default function RootLayout({
@@ -24,11 +25,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script src="https://blockonomics.co/js/pay_widget.js" defer></script>
-
+        {/* <script src="https://blockonomics.co/js/pay_widget.js"  async></script> */}
       </head>
       <body className={inter.className}>
 
+        <Script src="https://blockonomics.co/js/pay_widget.js" />
         <Navbar />
           <RecoilRootC>
               {children}

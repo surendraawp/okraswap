@@ -1,39 +1,73 @@
 import { Box, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { colors } from "@/theme/theme";
+import Script from 'next/script';
+import dynamic from "next/dynamic";
 
 interface Props {
-    amt: number,
-    wallet: string,
-    totalValue: string,
-    callback: Function
+    amt: any,
+    wallet: any,
+    totalValue: any,
+    callback: Function,
+    // Blockonomics: undefined
 }
 
+interface Btype {
+    widget: any
+}
+// var Blockonomics: Btype;
+// delete Blockonomics.widget
+
 export default function PayWithBtc ({amt, wallet, callback}: Props) {
-
-    const [quantity, setQuantity] = useState()
+    // await require("https://blockonomics.co/js/pay_widget.js")
     // let Blockonomics:any;
-
+    console.log(amt, wallet, "inside block");
+    
+    const [quantity, setQuantity] = useState()
+    // const [blockonomic, setBlockonomics] = useState({})
+    // let blockonomic: void = undefined
+    // let Blockonomics:any;
+    
+//     useEffect(() => {
+//       if(window !== undefined){
+//         blockonomic = blockonomic
+//       }
+// }, [])
+    
+    // setInterval(() => {
+    //     console.log(window);
+    // }, 1000);
+    // let widget:any;
     const uid = "4a2b91fbd2014da2";
+    // let Blockonomics:any;
+    const handleScriptLoad = () => {
+        // Access Blockonomics here
+        // Blockonomics = win;
+        // Rest of your component code
+      };
 
-
-
-    function payWithBitcoin() {
-        console.log("testing the button");
-        Blockonomics.widget({ 
+    async function payWithBitcoin() {  
+        // @ts-ignore
+        const _ = await Blockonomics.widget({ 
             msg_area: 'bitcoinpay',
-            uid: uid,
+            uid: uid ,
             email: "suren@ff.cc",
             quantity: amt,
-            wallet: wallet,
-        })
-    }
+            // wallet: "supremesing",
+            extra_data: {
+                wallet: wallet,
+                testw: "this is another"
+            }
+          
+        }) 
+        console.log(window);
+  
+      }
 
     (window as any).blockonomicsPaymentCallback = function(payment: any) {
         console.log( payment.value/1e8 + " BTC via " + payment?.txid);
         alert("Payment Done");
         callback(payment);
-        
     };
 
     // setTimeout(() => {
@@ -45,7 +79,8 @@ export default function PayWithBtc ({amt, wallet, callback}: Props) {
 
     function handleInput(e: any) {
         console.log("handling ");
-        alert("ok")
+
+        // alert("ok")  
         // setQuantity(e.target.value)
     }
 
@@ -88,6 +123,7 @@ export default function PayWithBtc ({amt, wallet, callback}: Props) {
                     }
                 }}></Box>
             </div>
-        </>
+            
+        </>  
     )
 }

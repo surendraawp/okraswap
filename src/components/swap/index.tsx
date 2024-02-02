@@ -158,7 +158,7 @@ export default function Swap() {
   }
 
   const doSwap = async () => {
-    if (Amount <= 0.001) return alert("Please Enter Amount");
+    if (Amount <= 0.0001) return alert("Please Enter Amount");
     let checkChian = await checkChainId();
     if(!checkChian) return alert('Switch To BSC')
     setBuyState(true);

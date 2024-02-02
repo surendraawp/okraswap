@@ -1,6 +1,6 @@
 import type { Handler, HandlerEvent, HandlerContext  } from "@netlify/functions";
 import axios from "axios";
-
+import url from "url";
 // import ws from "ws";
 
 import Web3 from "web3";
@@ -27,35 +27,60 @@ let contractPresale = new web3.eth.Contract(require("@/abi/presale.json"), PRESA
 const handler: Handler = async (event: HandlerEvent, context: HandlerContext) => {
     try {
        
-        const paymentInfo = JSON.parse(event.rawQuery);
+        const paymentInfo = url.parse(event.rawUrl, true).query;
         // console.log(event.body);
         // const paymentInfo = JSON.parse(event.rawQuery as any);
-        console.log(paymentInfo);
+        // console.log(paymentInfo);
+        // try {
+        //     console.log(" parsed", );
+            
+        // } catch (error) {
+        //     console.log("parse failed");
+            
+        // }
+        let tryOp = 1
+
+        const authOption = {
+            'Authorization': 'Bearer jblDIA1FKy4SiMY6Cc15YPCIoDva77cvsFhXljANzo0'
+        }
+        let  newTrx:any;
+        const  checkTrx= async() => {
+            newTrx = await axios.get(`https://www.blockonomics.co/api/merchant_order/${paymentInfo.uuid}`, {
+            headers: authOption
+        })
+        }   
         // console.log(paymentInfo, "body");
+
+        console.log(newTrx?.data);
+        
                 // Verify payment status and process the order accordingly
-        if (paymentInfo.status === 'Confirmed') {
+        if (newTrx.status === 2) {
             // Payment confirmed, fulfill the order
             console.log('Payment confirmed:', paymentInfo);
-            await buyFromBTC(paymentInfo)
+            // await buyFromBTC(paymentInfo)
             // Your code to fulfill the order
         } else {
-            console.log('Payment not confirmed:', paymentInfo);
+            console.log('Payment not confirmed:', newTrx.status, `try ${tryOp}`);
+            if(tryOp <= 3) {
+                checkTrx()
+            }
+            tryOp++
             // Handle other payment statuses if needed
         }
         return {
             statusCode: 200,
             body: JSON.stringify({
                 message: "success",
-                data: event?.rawQuery
+                // data: event?.rawQuery
             })
         }
     } catch (error) {
-        console.log("eror log");
+        console.log("eror log", error);
         
         return {
             statusCode: 400,
             body: JSON.stringify({
-                message: "succes"
+                message: "api failed"
             })
         }
     }
